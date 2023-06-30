@@ -2,13 +2,11 @@ use proc_macro2::TokenStream;
 use quote::ToTokens;
 use syn::{ext::IdentExt, Ident};
 
-use crate::{
-    client::generate_client_mod, descriptor::DescriptorMetadata, server::generate_server_mod,
-};
+use crate::{client::generate_client_mod, descriptor::Descriptor, server::generate_server_mod};
 
-impl ToTokens for DescriptorMetadata {
+impl ToTokens for Descriptor {
     fn to_tokens(&self, tokens: &mut TokenStream) {
-        let package = self.package.as_ref();
+        let package = &self.package.name;
         let client = self
             .service
             .iter()
@@ -22,10 +20,6 @@ impl ToTokens for DescriptorMetadata {
     }
 }
 
-pub(crate) fn service_fullpath(package: Option<&Ident>, service: &Ident) -> String {
-    if let Some(package) = package {
-        format!("{}.{}", package.unraw(), service.unraw())
-    } else {
-        format!("{}", service.unraw())
-    }
+pub(crate) fn service_fullpath(package: &Ident, service: &Ident) -> String {
+    format!("{}.{}", package.unraw(), service.unraw())
 }

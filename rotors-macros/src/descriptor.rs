@@ -14,53 +14,49 @@ mod kw {
     custom_keyword!(stream);
 }
 
-#[derive(Default, Debug)]
-pub struct DescriptorMetadata {
-    pub package: Option<Ident>,
-    pub service: Vec<ServiceMetadata>,
+#[derive(Debug)]
+pub struct Descriptor {
+    pub package: Package,
+    pub service: Vec<Service>,
 }
 
-impl Parse for DescriptorMetadata {
+impl Parse for Descriptor {
     fn parse(input: ParseStream) -> syn::Result<Self> {
-        let mut descriptor_metadata = DescriptorMetadata::default();
+        let package = input.parse()?;
+        let mut service = vec![];
         while !input.is_empty() {
-            let lookahead = input.lookahead1();
-            if lookahead.peek(kw::package) {
-                let package = parse_package(input)?;
-                if descriptor_metadata.package.is_some() {
-                    return Err(syn::Error::new(
-                        package.span(),
-                        "multiple package definition",
-                    ));
-                }
-                descriptor_metadata.package = Some(package);
-            } else if lookahead.peek(kw::service) {
-                let service: ServiceMetadata = input.parse()?;
-                descriptor_metadata.service.push(service);
-            } else {
-                return Err(lookahead.error());
-            }
+            let service_metadata = input.parse()?;
+            service.push(service_metadata);
         }
 
-        Ok(descriptor_metadata)
+        let descriptor = Descriptor { package, service };
+
+        Ok(descriptor)
     }
 }
 
-fn parse_package(input: ParseStream) -> syn::Result<Ident> {
-    input.parse::<kw::package>()?;
-    let package = input.parse::<Ident>()?;
-    input.parse::<Token![;]>()?;
+#[derive(Debug)]
+pub struct Package {
+    pub name: Ident,
+}
 
-    Ok(package)
+impl Parse for Package {
+    fn parse(input: ParseStream) -> syn::Result<Self> {
+        input.parse::<kw::package>()?;
+        let name = input.parse::<Ident>()?;
+        input.parse::<Token![;]>()?;
+
+        Ok(Package { name })
+    }
 }
 
 #[derive(Debug)]
-pub struct ServiceMetadata {
+pub struct Service {
     pub name: Ident,
-    pub method: Vec<MethodDescriptor>,
+    pub method: Vec<Method>,
 }
 
-impl Parse for ServiceMetadata {
+impl Parse for Service {
     fn parse(input: ParseStream) -> syn::Result<Self> {
         input.parse::<kw::service>()?;
         let name = input.parse::<Ident>()?;
@@ -70,18 +66,18 @@ impl Parse for ServiceMetadata {
 
             let mut method = vec![];
             while !content.is_empty() {
-                let method_descriptor: MethodDescriptor = content.parse()?;
+                let method_descriptor: Method = content.parse()?;
                 method.push(method_descriptor)
             }
             method
         };
 
-        Ok(ServiceMetadata { name, method })
+        Ok(Service { name, method })
     }
 }
 
 #[derive(Debug)]
-pub struct MethodDescriptor {
+pub struct Method {
     pub name: Ident,
     pub input_type: Type,
     pub output_type: Type,
@@ -89,7 +85,7 @@ pub struct MethodDescriptor {
     pub server_streaming: bool,
 }
 
-impl Parse for MethodDescriptor {
+impl Parse for Method {
     fn parse(input: ParseStream) -> syn::Result<Self> {
         input.parse::<kw::rpc>()?;
         let name = input.parse::<Ident>()?;
@@ -100,7 +96,7 @@ impl Parse for MethodDescriptor {
 
         input.parse::<Token![;]>()?;
 
-        Ok(MethodDescriptor {
+        Ok(Method {
             name,
             input_type,
             output_type,

@@ -5,10 +5,10 @@ use syn::{ext::IdentExt, Ident};
 
 use crate::{
     codegen::service_fullpath,
-    descriptor::{MethodDescriptor, ServiceMetadata},
+    descriptor::{Method, Service},
 };
 
-pub fn generate_client_mod(package: Option<&Ident>, descriptor: &ServiceMetadata) -> TokenStream {
+pub fn generate_client_mod(package: &Ident, descriptor: &Service) -> TokenStream {
     let service_ident = format_service_ident(&descriptor.name);
     let client_mod = format_client_mod(&descriptor.name);
 
@@ -138,11 +138,7 @@ fn generate_constructors(service_ident: &Ident) -> TokenStream {
     }
 }
 
-fn generate_method(
-    package: Option<&Ident>,
-    service: &Ident,
-    descriptor: &MethodDescriptor,
-) -> TokenStream {
+fn generate_method(package: &Ident, service: &Ident, descriptor: &Method) -> TokenStream {
     let ident = format_ident!("{}", descriptor.name.unraw().to_string().to_snake_case());
 
     // request

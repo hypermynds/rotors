@@ -15,6 +15,6 @@ rotors! {
     package helloworld;
 
     service Greeter {
-        rpc SayHello (HelloRequest) returns (HelloReply);
+        rpc SayHello (super::HelloRequest) returns (super::HelloReply);
     }
 }

@@ -5,19 +5,15 @@ use syn::{ext::IdentExt, Ident};
 
 use crate::{
     codegen::service_fullpath,
-    descriptor::{MethodDescriptor, ServiceMetadata},
+    descriptor::{Method, Service},
 };
 
-pub fn generate_server_mod(package: Option<&Ident>, descriptor: &ServiceMetadata) -> TokenStream {
+pub fn generate_server_mod(package: &Ident, descriptor: &Service) -> TokenStream {
     let service_ident = format_service_ident(&descriptor.name);
     let trait_ident = format_trait_ident(&descriptor.name);
     let client_mod = format_client_mod(&descriptor.name);
 
-    let service_name = if let Some(package) = package {
-        format!("{}.{}", package.unraw(), descriptor.name.unraw())
-    } else {
-        format!("{}", descriptor.name.unraw())
-    };
+    let service_name = format!("{}.{}", package.unraw(), descriptor.name.unraw());
 
     let trait_method = descriptor.method.iter().map(generate_trait_method);
 
@@ -75,7 +71,7 @@ fn format_client_mod(service_ident: &Ident) -> Ident {
     format_ident!("{}_server", snake_case_service_ident)
 }
 
-fn generate_trait_method(method: &MethodDescriptor) -> TokenStream {
+fn generate_trait_method(method: &Method) -> TokenStream {
     let ident = format_ident!("{}", method.name.unraw().to_string().to_snake_case());
 
     // input
@@ -189,8 +185,8 @@ fn generate_constructors() -> TokenStream {
 fn generate_service(
     service_ident: &Ident,
     trait_ident: &Ident,
-    package: Option<&Ident>,
-    descriptor: &ServiceMetadata,
+    package: &Ident,
+    descriptor: &Service,
 ) -> TokenStream {
     let default_route = quote! {
         _ => Box::pin(async move {
@@ -242,9 +238,9 @@ fn generate_service(
 
 fn generate_server_route(
     trait_ident: &Ident,
-    package: Option<&Ident>,
+    package: &Ident,
     service: &Ident,
-    descriptor: &MethodDescriptor,
+    descriptor: &Method,
 ) -> TokenStream {
     let service_fullpath = service_fullpath(package, service);
     let method_name = descriptor.name.unraw().to_string();
