@@ -52,16 +52,25 @@ impl Parse for Descriptor {
 
 #[derive(Debug)]
 struct Package {
-    name: Ident,
+    name: String,
 }
 
 impl Parse for Package {
     fn parse(input: ParseStream) -> syn::Result<Self> {
         input.parse::<kw::package>()?;
-        let name = input.parse::<Ident>()?;
-        input.parse::<Token![;]>()?;
-
-        Ok(Package { name })
+        let mut name = format!("{}", input.parse::<Ident>()?);
+        loop {
+            let lookahead = input.lookahead1();
+            if lookahead.peek(Token![;]) {
+                input.parse::<Token![;]>()?;
+                break Ok(Package { name });
+            } else if lookahead.peek(Token![.]) {
+                input.parse::<Token![.]>()?;
+                name = format!("{}.{}", name, input.parse::<Ident>()?);
+            } else {
+                break Err(lookahead.error());
+            }
+        }
     }
 }
 
@@ -140,11 +149,11 @@ fn parse_method_type(input: ParseStream) -> syn::Result<(bool, Type)> {
 
 impl ToTokens for Descriptor {
     fn to_tokens(&self, tokens: &mut TokenStream) {
-        let package = self.package.name.unraw().to_string();
+        let package = &self.package.name;
         let services = self.service.iter().map(|service| {
             let name = service.name.unraw().to_string();
 
-            let mut service_builder = TonicService::builder().name(name).package(&package);
+            let mut service_builder = TonicService::builder().name(name).package(package);
             for method in &service.method {
                 let route_name = method.name.unraw().to_string();
                 let name = route_name.to_snake_case();
