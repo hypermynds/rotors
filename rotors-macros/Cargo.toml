@@ -11,3 +11,8 @@ heck = "0.4"
 proc-macro2 = "1"
 quote = "1"
 syn = {version = "2", features= ["extra-traits"]}
+tonic-build = { version = "0.9", default-features = false }
+
+[features]
+default = []
+transport = ["tonic-build/transport"]

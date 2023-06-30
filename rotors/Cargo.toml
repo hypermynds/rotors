@@ -8,4 +8,8 @@ bytes = "1"
 ciborium = "0.2"
 rotors-macros = { path = "../rotors-macros" }
 serde = "1"
-tonic = { version = "^0.9.2", features = ["codegen", "transport"] }
+tonic = { version = "0.9", default-features = false }
+
+[features]
+default = ["transport"]
+transport = ["rotors-macros/transport"]

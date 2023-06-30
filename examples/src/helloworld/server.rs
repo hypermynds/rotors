@@ -10,7 +10,7 @@ mod proto;
 #[derive(Default)]
 pub struct MyGreeter {}
 
-#[rotors::async_trait]
+#[tonic::async_trait]
 impl Greeter for MyGreeter {
     async fn say_hello(
         &self,

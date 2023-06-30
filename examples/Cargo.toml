@@ -15,5 +15,5 @@ path = "src/helloworld/client.rs"
 [dependencies]
 rotors = { path = "../rotors" }
 serde = { version = "1", features = ["derive"] }
-tokio = { version = "1.28.2", features = ["macros", "rt-multi-thread"] }
+tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
 tonic = "0.9"
