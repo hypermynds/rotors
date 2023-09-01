@@ -14,7 +14,7 @@ categories = ["web-programming", "network-programming", "asynchronous"]
 [dependencies]
 bytes = "1"
 ciborium = "0.2"
-rotors-macros = { path = "../rotors-macros" }
+rotors-macros.workspace = true
 serde = "1"
 tonic = { version = "0.9", default-features = false }
 
