@@ -5,7 +5,7 @@
 ![Apache 2.0 OR MIT licensed](https://img.shields.io/badge/license-Apache2.0%2FMIT-blue.svg)
 
 
-`Proto`cols in Rust without the Pain
+Rust `PROTO`cols without the `P`ain
 
 ## Why should I use this library?
 
@@ -13,12 +13,12 @@ You probably shouldn't, because this library is under development and
 has not gone through serious scrutiny yet.
 
 However, if you would like an easier way to use native Rust types inside a
-`tonic` project, this might be useful to you!
+`tonic` project, this might be useful to you.
 
 ## How should I use this library?
 
 Instead of writing a gRPC `xyz.proto` file and using the `tonic-build` tools in your `build.rs`,
-you can just write a simple macro and let it do most of the heavy lifting.
+you can just use a simple macro in your code, and let the macro do most of the heavy lifting!
 
 ```rust
 use rotors::rotors;
