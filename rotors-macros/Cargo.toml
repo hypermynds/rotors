@@ -1,7 +1,12 @@
 [package]
 name = "rotors-macros"
-version = "0.1.0"
-edition = "2021"
+description = "macros for rotors"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+homepage.workspace = true
+repository.workspace = true
+documentation = "https://docs.rs/rotors-macros"
 
 [lib]
 proc_macro = true

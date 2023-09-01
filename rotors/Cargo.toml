@@ -1,7 +1,15 @@
 [package]
 name = "rotors"
-version = "0.1.0"
-edition = "2021"
+description = "tonic-based RPC library"
+readme = "../README.md"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+homepage.workspace = true
+repository.workspace = true
+documentation = "https://docs.rs/rotors"
+keywords = ["rpc", "tonic", "cbor", "async"]
+categories = ["web-programming", "network-programming", "asynchronous"]
 
 [dependencies]
 bytes = "1"

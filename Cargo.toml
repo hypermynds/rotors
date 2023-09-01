@@ -1,2 +1,11 @@
 [workspace]
 members = ["examples", "rotors-macros", "rotors"]
+
+[workspace.package]
+version = "0.1.0"
+authors = ["Mattia Penati <mp@hypermynds.com>", "Francesco Cattoglio <fc@hypermynds.com>"]
+edition = "2021"
+license = "MIT OR Apache-2.0"
+homepage = "https://github.com/hypermynds/rotors"
+
+repository = "https://github.com/hypermynds/rotors"
