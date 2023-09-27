@@ -16,7 +16,7 @@ impl<T, U> Default for CborCodec<T, U> {
 impl<T, U> Clone for CborCodec<T, U> {
     #[inline]
     fn clone(&self) -> Self {
-        CborCodec(PhantomData)
+        *self
     }
 }
 
@@ -48,7 +48,7 @@ pub struct CborEncoder<T>(PhantomData<T>);
 impl<T> Clone for CborEncoder<T> {
     #[inline]
     fn clone(&self) -> Self {
-        CborEncoder(PhantomData)
+        *self
     }
 }
 
@@ -79,7 +79,7 @@ pub struct CborDecoder<T>(PhantomData<T>);
 impl<T> Clone for CborDecoder<T> {
     #[inline]
     fn clone(&self) -> Self {
-        CborDecoder(PhantomData)
+        *self
     }
 }
 

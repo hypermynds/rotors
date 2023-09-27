@@ -16,7 +16,7 @@ bytes = "1"
 ciborium = "0.2"
 rotors-macros.workspace = true
 serde = "1"
-tonic = { version = "0.9", default-features = false }
+tonic.workspace = true
 
 [features]
 default = ["transport"]

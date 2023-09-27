@@ -12,3 +12,5 @@ repository = "https://github.com/hypermynds/rotors"
 
 [workspace.dependencies]
 rotors-macros = { path = "./rotors-macros", version = "0.1.0" }
+tonic = { version = "0.10", default-features = false }
+tonic-build = { version = "0.10", default-features = false }
