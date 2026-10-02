@@ -27,3 +27,7 @@ serde = { version = "1", features = ["derive"] }
 tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
 tokio-stream = "0.1"
 tonic = { workspace = true, features = ["codegen", "transport"] }
+
+[dev-dependencies]
+tokio = { version = "1", features = ["net", "sync", "time"] }
+tokio-stream = { version = "0.1", features = ["net"] }

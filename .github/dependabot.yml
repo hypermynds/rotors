@@ -1,0 +1,32 @@
+version: 2
+updates:
+  - package-ecosystem: cargo
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      grpc:
+        patterns:
+          - tonic
+          - tonic-build
+          - tonic-prost
+          - tonic-prost-build
+          - prost
+          - prost-types
+      cargo-patch-minor:
+        patterns:
+          - "*"
+        exclude-patterns:
+          - tonic
+          - tonic-build
+          - tonic-prost
+          - tonic-prost-build
+          - prost
+          - prost-types
+        update-types:
+          - minor
+          - patch
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
