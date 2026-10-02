@@ -21,7 +21,7 @@ name = "helloworld-server"
 path = "src/helloworld/server.rs"
 
 [dependencies]
-h2 = "0.3"
+h2 = "0.4"
 rotors = { path = "../rotors" }
 serde = { version = "1", features = ["derive"] }
 tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
