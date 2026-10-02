@@ -26,7 +26,7 @@ rotors = { path = "../rotors" }
 serde = { version = "1", features = ["derive"] }
 tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
 tokio-stream = "0.1"
-tonic = { workspace = true, features = ["codegen", "transport"] }
+tonic = { workspace = true, features = ["codegen", "transport", "router"] }
 
 [dev-dependencies]
 tokio = { version = "1", features = ["net", "sync", "time"] }
