@@ -1,5 +1,5 @@
 [package]
-name = "examples"
+name = "rotors-examples"
 version.workspace = true
 edition.workspace = true
 publish = false
