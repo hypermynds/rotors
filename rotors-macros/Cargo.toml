@@ -12,7 +12,7 @@ documentation = "https://docs.rs/rotors-macros"
 proc_macro = true
 
 [dependencies]
-heck = "0.4"
+heck = "0.5"
 proc-macro2 = "1"
 quote = "1"
 syn = {version = "2", features= ["extra-traits"]}
